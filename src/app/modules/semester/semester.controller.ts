@@ -9,13 +9,15 @@ const createSemesterToDatabase = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { ...semester } = req.body
     const result = await SemesterService.createSemester(semester)
-    next()
+
     sendResponse<ISemester>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'Semester created successfully!',
       data: result,
     })
+
+    next()
   }
 )
 
