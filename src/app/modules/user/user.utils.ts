@@ -1,8 +1,11 @@
 import { User } from './user.model'
 
-const generatedId = async (): Promise<string> => {
+export const generatedId = async (): Promise<string> => {
   // get current year
   const currentYear = new Date().getFullYear().toString().slice(-2)
+
+  // get current month
+  const currentMonth = new Date().getMonth() + 1
 
   // get last user id from db
   const lastUserId = await User.findOne({}, { id: 1, _id: 0 })
@@ -19,8 +22,16 @@ const generatedId = async (): Promise<string> => {
   } else {
     actualId = '0001'
   }
-  const id = `${currentYear}-${actualId}`
+
+  let monthCode: string
+  if (currentMonth >= 1 && currentMonth <= 4) {
+    monthCode = '01'
+  } else if (currentMonth >= 5 && currentMonth <= 8) {
+    monthCode = '02'
+  } else {
+    monthCode = '03'
+  }
+
+  const id = `${currentYear}-${monthCode}-${actualId}`
   return id
 }
-
-export default generatedId
