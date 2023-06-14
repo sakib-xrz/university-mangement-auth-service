@@ -11,4 +11,6 @@ router.post(
   SemesterController.createSemesterToDatabase
 )
 
+router.get('/', SemesterController.getSemesterFromDataBase)
+
 export const SemesterRoute = router
