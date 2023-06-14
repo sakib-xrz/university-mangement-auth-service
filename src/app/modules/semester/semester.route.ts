@@ -11,6 +11,8 @@ router.post(
   SemesterController.createSemesterToDatabase
 )
 
-router.get('/', SemesterController.getSemesterFromDataBase)
+router.get('/:id', SemesterController.getSingleSemesterFromDatabase)
+
+router.get('/', SemesterController.getSemesterFromDatabase)
 
 export const SemesterRoute = router

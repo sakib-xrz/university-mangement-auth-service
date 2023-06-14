@@ -24,7 +24,7 @@ const createSemesterToDatabase = catchAsync(
   }
 )
 
-const getSemesterFromDataBase = catchAsync(
+const getSemesterFromDatabase = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const filters = pick(req.query, semesterFilterableFields)
     const paginationOptions = pick(req.query, paginationFields)
@@ -43,7 +43,23 @@ const getSemesterFromDataBase = catchAsync(
   }
 )
 
+const getSingleSemesterFromDatabase = catchAsync(
+  async (req: Request, res: Response) => {
+    const id = req.params.id
+
+    const result = await SemesterService.getSingleSemester(id)
+
+    sendResponse<ISemester>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Semester retrieved successfully !',
+      data: result,
+    })
+  }
+)
+
 export const SemesterController = {
   createSemesterToDatabase,
-  getSemesterFromDataBase,
+  getSemesterFromDatabase,
+  getSingleSemesterFromDatabase,
 }
