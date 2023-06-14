@@ -6,6 +6,7 @@ import httpStatus from 'http-status'
 import { ISemester } from './semester.interface'
 import pick from '../../../shared/pick'
 import { paginationFields } from '../../../constants/pagination'
+import { semesterFilterableFields } from './semester.constant'
 
 const createSemesterToDatabase = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -25,9 +26,10 @@ const createSemesterToDatabase = catchAsync(
 
 const getSemesterFromDataBase = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    const filters = pick(req.query, semesterFilterableFields)
     const paginationOptions = pick(req.query, paginationFields)
 
-    const result = await SemesterService.getSemester(paginationOptions)
+    const result = await SemesterService.getSemester(filters, paginationOptions)
 
     sendResponse<ISemester[]>(res, {
       statusCode: httpStatus.OK,

@@ -1,10 +1,15 @@
 import httpStatus from 'http-status'
 import ApiError from '../../../errors/ApiErrors'
-import { SemesterTitleCodeMapper } from './semester.constant'
-import { ISemester } from './semester.interface'
+import {
+  SemesterTitleCodeMapper,
+  semesterSearchableFields,
+} from './semester.constant'
+import { ISemester, ISemesterFilters } from './semester.interface'
 import { Semester } from './semester.model'
 import { IPaginationOptions } from '../../../interfaces/pagination'
 import { IGenericResponse } from '../../../interfaces/common'
+import { paginationHelpers } from '../../../helpers/paginationHelper'
+import { SortOrder } from 'mongoose'
 
 const createSemester = async (payload: ISemester): Promise<ISemester> => {
   if (SemesterTitleCodeMapper[payload.title] !== payload.code) {
@@ -16,13 +21,47 @@ const createSemester = async (payload: ISemester): Promise<ISemester> => {
 }
 
 const getSemester = async (
+  filters: ISemesterFilters,
   paginationOptions: IPaginationOptions
 ): Promise<IGenericResponse<ISemester[]>> => {
-  const { page = 1, limit = 10 } = paginationOptions
+  const { searchTerm, ...filtersData } = filters
+  const andConditions = []
 
-  const skip = (page - 1) * limit
+  if (searchTerm) {
+    andConditions.push({
+      $or: semesterSearchableFields.map(field => ({
+        [field]: {
+          $regex: searchTerm,
+          $options: 'i',
+        },
+      })),
+    })
+  }
 
-  const result = await Semester.find().sort().skip(skip).limit(limit)
+  if (Object.keys(filtersData).length) {
+    andConditions.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    })
+  }
+
+  const whereConditions =
+    andConditions.length > 0 ? { $and: andConditions } : {}
+
+  const { page, limit, skip, sortBy, sortOrder } =
+    paginationHelpers.calculatePagination(paginationOptions)
+
+  const sortConditions: { [key: string]: SortOrder } = {}
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder
+  }
+
+  const result = await Semester.find(whereConditions)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit)
 
   const total = await Semester.countDocuments()
 

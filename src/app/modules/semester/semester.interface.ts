@@ -20,10 +20,12 @@ export type ISemesterMonth =
 
 export type ISemester = {
   title: ISemesterTitle
-  year: number
+  year: string
   code: ISemesterCode
   startMonth: ISemesterMonth
   endMonth: ISemesterMonth
 }
 
 export type SemesterModel = Model<ISemester>
+
+export type ISemesterFilters = { searchTerm?: string }
