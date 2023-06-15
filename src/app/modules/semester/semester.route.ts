@@ -11,6 +11,8 @@ router.post(
   SemesterController.createSemesterToDatabase
 )
 
+router.patch('/:id', SemesterController.updateSemesterFromDatabase)
+
 router.get('/:id', SemesterController.getSingleSemesterFromDatabase)
 
 router.get('/', SemesterController.getSemesterFromDatabase)

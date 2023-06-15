@@ -58,8 +58,25 @@ const getSingleSemesterFromDatabase = catchAsync(
   }
 )
 
+const updateSemesterFromDatabase = catchAsync(
+  async (req: Request, res: Response) => {
+    const id = req.params.id
+    const updatedData = req.body
+
+    const result = await SemesterService.updateSemester(id, updatedData)
+
+    sendResponse<ISemester>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Semester updated successfully !',
+      data: result,
+    })
+  }
+)
+
 export const SemesterController = {
   createSemesterToDatabase,
   getSemesterFromDatabase,
   getSingleSemesterFromDatabase,
+  updateSemesterFromDatabase,
 }
