@@ -84,6 +84,14 @@ const updateSemester = async (
   id: string,
   payload: Partial<ISemester>
 ): Promise<ISemester | null> => {
+  if (
+    payload.title &&
+    payload.code &&
+    SemesterTitleCodeMapper[payload.title] !== payload.code
+  ) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid semester code')
+  }
+
   const result = await Semester.findOneAndUpdate({ _id: id }, payload, {
     new: true,
   })
