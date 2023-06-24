@@ -17,6 +17,8 @@ router.patch(
   SemesterController.updateSemesterFromDatabase
 )
 
+router.delete('/:id', SemesterController.deleteSemesterFromDatabase)
+
 router.get('/:id', SemesterController.getSingleSemesterFromDatabase)
 
 router.get('/', SemesterController.getSemesterFromDatabase)

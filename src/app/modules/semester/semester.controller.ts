@@ -74,9 +74,25 @@ const updateSemesterFromDatabase = catchAsync(
   }
 )
 
+const deleteSemesterFromDatabase = catchAsync(
+  async (req: Request, res: Response) => {
+    const id = req.params.id
+
+    const result = await SemesterService.deleteSemester(id)
+
+    sendResponse<ISemester>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Semester deleted successfully !',
+      data: result,
+    })
+  }
+)
+
 export const SemesterController = {
   createSemesterToDatabase,
   getSemesterFromDatabase,
   getSingleSemesterFromDatabase,
   updateSemesterFromDatabase,
+  deleteSemesterFromDatabase,
 }
