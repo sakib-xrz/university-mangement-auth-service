@@ -3,5 +3,5 @@
     "source.fixAll.eslint": true,
     "source.organizeImports": true
   },
-  "cSpell.words": ["errorlogger"]
+  "cSpell.words": ["errorlogger", "middlewares", "updatefaculty"]
 }
