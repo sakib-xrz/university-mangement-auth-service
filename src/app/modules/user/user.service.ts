@@ -2,11 +2,16 @@ import config from '../../../config'
 import ApiError from '../../../errors/ApiErrors'
 import { IUser } from './user.interface'
 import { User } from './user.model'
-import { generatedId } from './user.utils'
+import { generateStudentId } from './user.utils'
 
 const createUser = async (user_data: IUser): Promise<IUser | null> => {
+  const semester = {
+    code: '02',
+    year: '2023',
+  }
+
   // auto generated id
-  const id = await generatedId()
+  const id = await generateStudentId(semester)
   user_data.id = id
 
   // password
