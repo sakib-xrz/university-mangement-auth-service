@@ -1,8 +1,12 @@
-import { Schema, model } from 'mongoose'
-import { ISemester, SemesterModel } from './semester.interface'
-import { SemesterCode, SemesterMonth, SemesterTitle } from './semester.constant'
-import ApiError from '../../../errors/ApiErrors'
 import httpStatus from 'http-status'
+import { Schema, model } from 'mongoose'
+import ApiError from '../../../errors/ApiErrors'
+import {
+  SemesterCode,
+  SemesterMonth,
+  SemesterTitle,
+} from './academicSemester.constant'
+import { ISemester, SemesterModel } from './academicSemester.interface'
 
 const semesterSchema = new Schema<ISemester>(
   {
@@ -40,7 +44,7 @@ const semesterSchema = new Schema<ISemester>(
 )
 
 semesterSchema.pre('save', async function (next) {
-  const isSemesterExists = await Semester.findOne({
+  const isSemesterExists = await AcademicSemester.findOne({
     title: this.title,
     year: this.year,
   })
@@ -52,7 +56,7 @@ semesterSchema.pre('save', async function (next) {
   }
 })
 
-export const Semester = model<ISemester, SemesterModel>(
-  'Semester',
+export const AcademicSemester = model<ISemester, SemesterModel>(
+  'AcademicSemester',
   semesterSchema
 )

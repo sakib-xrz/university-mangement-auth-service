@@ -1,5 +1,9 @@
 import { z } from 'zod'
-import { SemesterCode, SemesterMonth, SemesterTitle } from './semester.constant'
+import {
+  SemesterCode,
+  SemesterMonth,
+  SemesterTitle,
+} from './academicSemester.constant'
 
 const createSemesterZodSchema = z.object({
   body: z.object({

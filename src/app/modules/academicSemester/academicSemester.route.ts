@@ -1,7 +1,7 @@
 import validateRequest from '../../middlewares/validateRequest'
 import express from 'express'
-import { SemesterValidation } from './semester.validation'
-import { SemesterController } from './semester.controller'
+import { SemesterValidation } from './academicSemester.validation'
+import { SemesterController } from './academicSemester.controller'
 
 const router = express.Router()
 
@@ -23,4 +23,4 @@ router.get('/:id', SemesterController.getSingleSemesterFromDatabase)
 
 router.get('/', SemesterController.getSemesterFromDatabase)
 
-export const SemesterRoute = router
+export const AcademicSemesterRoute = router

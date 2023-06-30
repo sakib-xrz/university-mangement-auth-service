@@ -2,7 +2,7 @@ import {
   ISemesterCode,
   ISemesterMonth,
   ISemesterTitle,
-} from './semester.interface'
+} from './academicSemester.interface'
 
 export const SemesterTitle: ISemesterTitle[] = ['Spring', 'Summer', 'Fall']
 export const SemesterCode: ISemesterCode[] = ['01', '02', '03']

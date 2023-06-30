@@ -1,22 +1,22 @@
 import httpStatus from 'http-status'
+import { SortOrder } from 'mongoose'
 import ApiError from '../../../errors/ApiErrors'
+import { paginationHelpers } from '../../../helpers/paginationHelper'
+import { IGenericResponse } from '../../../interfaces/common'
+import { IPaginationOptions } from '../../../interfaces/pagination'
 import {
   SemesterTitleCodeMapper,
   semesterSearchableFields,
-} from './semester.constant'
-import { ISemester, ISemesterFilters } from './semester.interface'
-import { Semester } from './semester.model'
-import { IPaginationOptions } from '../../../interfaces/pagination'
-import { IGenericResponse } from '../../../interfaces/common'
-import { paginationHelpers } from '../../../helpers/paginationHelper'
-import { SortOrder } from 'mongoose'
+} from './academicSemester.constant'
+import { ISemester, ISemesterFilters } from './academicSemester.interface'
+import { AcademicSemester } from './academicSemester.model'
 
 const createSemester = async (payload: ISemester): Promise<ISemester> => {
   if (SemesterTitleCodeMapper[payload.title] !== payload.code) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid semester code')
   }
 
-  const result = await Semester.create(payload)
+  const result = await AcademicSemester.create(payload)
   return result
 }
 
@@ -58,12 +58,12 @@ const getSemester = async (
     sortConditions[sortBy] = sortOrder
   }
 
-  const result = await Semester.find(whereConditions)
+  const result = await AcademicSemester.find(whereConditions)
     .sort(sortConditions)
     .skip(skip)
     .limit(limit)
 
-  const total = await Semester.countDocuments()
+  const total = await AcademicSemester.countDocuments()
 
   return {
     meta: {
@@ -76,7 +76,7 @@ const getSemester = async (
 }
 
 const getSingleSemester = async (id: string): Promise<ISemester | null> => {
-  const result = await Semester.findById(id)
+  const result = await AcademicSemester.findById(id)
   return result
 }
 
@@ -92,14 +92,14 @@ const updateSemester = async (
     throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid semester code')
   }
 
-  const result = await Semester.findOneAndUpdate({ _id: id }, payload, {
+  const result = await AcademicSemester.findOneAndUpdate({ _id: id }, payload, {
     new: true,
   })
   return result
 }
 
 const deleteSemester = async (id: string): Promise<ISemester | null> => {
-  const result = await Semester.findByIdAndDelete(id)
+  const result = await AcademicSemester.findByIdAndDelete(id)
   return result
 }
 

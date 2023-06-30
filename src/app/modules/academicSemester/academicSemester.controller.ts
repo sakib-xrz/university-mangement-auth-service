@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from 'express'
-import { SemesterService } from './semester.service'
-import catchAsync from '../../../shared/catchAsync'
-import sendResponse from '../../../shared/sendResponse'
 import httpStatus from 'http-status'
-import { ISemester } from './semester.interface'
-import pick from '../../../shared/pick'
 import { paginationFields } from '../../../constants/pagination'
-import { semesterFilterableFields } from './semester.constant'
+import catchAsync from '../../../shared/catchAsync'
+import pick from '../../../shared/pick'
+import sendResponse from '../../../shared/sendResponse'
+import { semesterFilterableFields } from './academicSemester.constant'
+import { ISemester } from './academicSemester.interface'
+import { SemesterService } from './academicSemester.service'
 
 const createSemesterToDatabase = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {

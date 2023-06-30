@@ -5,8 +5,8 @@ import catchAsync from '../../../shared/catchAsync'
 import pick from '../../../shared/pick'
 import sendResponse from '../../../shared/sendResponse'
 import { academicFacultyFilterableFields } from './academicFaculty.constants'
-import { IAcademicFaculty } from './academicFaculty.interfaces'
 import { AcademicFacultyService } from './academicFaculty.service'
+import { IAcademicFaculty } from './academicFaculty.interface'
 
 const createFaculty = catchAsync(async (req: Request, res: Response) => {
   const { ...academicFacultyData } = req.body
