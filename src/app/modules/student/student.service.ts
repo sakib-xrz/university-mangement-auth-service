@@ -117,7 +117,7 @@ const updateStudent = async (
 }
 
 const deleteStudent = async (id: string): Promise<IStudent | null> => {
-  // check if the faculty is exist
+  // check if the student is exist
   const isExist = await Student.findOne({ id })
 
   if (!isExist) {
@@ -134,13 +134,14 @@ const deleteStudent = async (id: string): Promise<IStudent | null> => {
       throw new ApiError(404, 'Failed to delete student')
     }
     //delete user
-    await User.deleteOne({ id })
+    await User.deleteOne({ id }, { session })
     session.commitTransaction()
     session.endSession()
 
     return student
   } catch (error) {
     session.abortTransaction()
+    session.endSession()
     throw error
   }
 }
