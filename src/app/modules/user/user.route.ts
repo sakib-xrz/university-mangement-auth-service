@@ -23,4 +23,4 @@ router.post(
   UserController.createAdmin
 )
 
-export const UserRoute = router
+export const UserRoutes = router
